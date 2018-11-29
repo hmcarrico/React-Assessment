@@ -8,6 +8,7 @@ class OneTask extends Component {
     constructor(){
         super();
         this.state = {
+            tasks: [],
             title: null,
             description: null
         }
@@ -21,7 +22,7 @@ class OneTask extends Component {
         this.props.getTasks()
         this.props.tasks.length > 0 
         ?
-            this.setState({title: this.props.tasks[this.props.match.params.id].title, description: this.props.tasks[this.props.match.params.id].description})
+            this.setState({tasks: this.props.tasks})
         : 
             this.props.getTasks()
         
@@ -96,17 +97,34 @@ class OneTask extends Component {
 
         return (
         <div>
+            {console.log(this.props.tasks)}
             {
-                this.props.tasks.length > 0 && this.state.title !== null
+                this.props.tasks.length > 0
                 ?
                 <div>
-                    <Link to='/'><button style={buttonStyle2}>Back to Tasks</button></Link> <br />
-                    Task: <input value={this.state.title} name='title' onChange={(e) => this.handleInput(e)}/> <button style={buttonStyle} onClick={() => this.completeIt(task.id)}>Complete</button><br />
-                    Description: <input value={this.state.description} name='description' onChange={(e) => this.handleInput(e)}/> <br />
-                <button style={buttonStyle4} onClick={() => this.editIt(this.state.title, this.state.description, task.id)}>Save</button>
-                <button style={buttonStyle} onClick={() => this.setState({title: task.title, description: task.description})}>Cancel</button>
-                <button style={buttonStyle3} onClick={() => this.deleteATask(task.id)}>Delete</button>
+                {
+                    this.props.tasks.map(task => {
+                        if(task.id == this.props.match.params.id){
+                            return <div>
+                                {
+                                this.state.title === null
+                                ? this.setState({title: task.title, description: task.description})
+                                : <div></div>
+                                }
+                                    <Link to='/'><button style={buttonStyle2}>Back to Tasks</button></Link> <br />
+                                    Task: <input value={this.state.title} name='title' onChange={(e) => this.handleInput(e)}/> <button style={buttonStyle} onClick={() => this.completeIt(task.id)}>Complete</button><br />
+                                    Description: <input value={this.state.description} name='description' onChange={(e) => this.handleInput(e)}/> <br />
+                                <button style={buttonStyle4} onClick={() => this.editIt(this.state.title, this.state.description, task.id)}>Save</button>
+                                <button style={buttonStyle} onClick={() => this.setState({title: task.title, description: task.description})}>Cancel</button>
+                                <button style={buttonStyle3} onClick={() => this.deleteATask(task.id)}>Delete</button>
+                                </div>
+                        } else {
+                            return <div></div>
+                        }
+                    })
+                    }
                 </div>
+                    
                 :
                 <div>
                 Loading...

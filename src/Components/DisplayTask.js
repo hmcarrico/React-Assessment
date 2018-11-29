@@ -78,6 +78,7 @@ class DisplayTask extends Component {
                             <b style={{color: 'black', textDecoration: 'none'}}>{task.title}</b>
                         </Link>
                         }
+                        {console.log(task.id)}
                         <p>{task.description}</p>
                         <button style={task.completed ? buttonStyle2 : buttonStyle} onClick={() => this.completeIt(task.id)}>Complete</button>
                         <button style={buttonStyle} onClick={() => this.deleteStuff(task.id)}>X</button>
